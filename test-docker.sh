@@ -1,0 +1,1 @@
+docker run --rm --name avengers -p 8080:8080 avengers-app:1.0
