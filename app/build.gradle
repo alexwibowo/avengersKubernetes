@@ -1,6 +1,7 @@
 // use plugins DSL, instead of legacy plugin
 plugins {
 	id "org.springframework.boot"	version "2.5.2"
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'com.bmuschko.docker-spring-boot-application' version '7.0.1'
 }
 
@@ -12,6 +13,7 @@ dependencies {
 		exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
 		exclude group: "cq.qos.logback", module: "logback-classic"	
 	}
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //	runtimeOnly group:"org.yaml", name:"snakeyaml", version: 1.19
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-api"
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-core"
