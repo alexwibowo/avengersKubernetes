@@ -1,0 +1,1 @@
+docker build -t avengers-httpd:1.0 .
