@@ -1,0 +1,26 @@
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'idea'
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+
+	dependencies {
+		implementation group:"org.slf4j", name: "slf4j-api", version: slf4jVersion
+
+		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	}
+
+
+	test {
+		useJUnitPlatform()
+	}
+}
