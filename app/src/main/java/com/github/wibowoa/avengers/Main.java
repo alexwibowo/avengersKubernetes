@@ -1,4 +1,4 @@
-package com.github.wibowoa.kubedemo;
+package com.github.wibowoa.avengers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

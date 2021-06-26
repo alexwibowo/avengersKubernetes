@@ -14,7 +14,6 @@ dependencies {
 		exclude group: "cq.qos.logback", module: "logback-classic"	
 	}
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//	runtimeOnly group:"org.yaml", name:"snakeyaml", version: 1.19
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-api"
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-core"
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-jcl"
@@ -26,6 +25,6 @@ docker {
 		baseImage = 'openjdk:8-alpine'
 		maintainer = 'Alex Wibowo "alexwibowo@gmail.com"'
 		ports = [8080]
-		images = ['alexwibowo-springboot-kubedemo:1.0']
+		images = ['avengers-app:1.0']
 	}
 }
