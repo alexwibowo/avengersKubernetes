@@ -11,8 +11,9 @@ dependencies {
 		exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
 		exclude group: "cq.qos.logback", module: "logback-classic"	
 	}
+	runtimeOnly group:"org.yaml", name:"snakeyaml", version: 1.19
 	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-api"
-    	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-core"
-    	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-jcl"
-    	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-slf4j-impl"
+	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-core"
+	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-jcl"
+	runtimeOnly group:"org.apache.logging.log4j", name: "log4j-slf4j-impl"
 }
