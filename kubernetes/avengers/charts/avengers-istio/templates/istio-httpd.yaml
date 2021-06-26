@@ -1,0 +1,42 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ include "avengers-httpd.gateway" . }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: {{ .Values.lowTrust.ingressGateway.port }}
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ .Values.lowTrust.hostname }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "avengers-httpd.virtualServiceName" . }}
+spec:
+  hosts:
+    - {{ .Values.lowTrust.hostname }}
+  gateways:
+    - {{ include "avengers-httpd.gateway" . }}
+  http:
+    - route:
+        - destination:
+            host: {{ include "avengers-httpd.host" . }}
+            subset: avengersAppDestination
+            port:
+              number: {{ .Values.global.httpd.clusterIpPort }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "avengers-httpd.destRule" . }}
+spec:
+  host: {{ include "avengers-httpd.host" . }}
+  subsets:
+    - name: avengersAppDestination
+      labels:
+        app.kuberentes.io/name: {{ include "avengers-httpd.name" . }}

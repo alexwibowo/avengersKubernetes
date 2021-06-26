@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "avengers-httpd.fullname" . }}
+  labels:
+    {{- include "avengers-httpd.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "avengers-httpd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "avengers-httpd.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "avengers-httpd.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: httpd-tmp
+          emptyDir: {}
+        - name: httpd-logs
+          emptyDir: {}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: httpd-tmp
+              mountPath: /tmp
+            - name: httpd-logs
+              mountPath: /usr/local/apache2/logs
+          ports:
+            - name: http
+              containerPort: {{ .Values.global.httpd.applicationPort }}
+              protocol: TCP
+          env:
+            - name: APP_HOST
+              value: "cr1-avengers-app"
+            - name: APP_PORT
+              value: "8081"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

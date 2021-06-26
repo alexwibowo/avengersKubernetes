@@ -1,0 +1,17 @@
+avengers-istio:
+  lowTrust:
+    hostname: "lowtrust.avengers.local"
+    ingressGateway:
+      port: 443
+  mediumTrust:
+    hostname: "mediumtrust.avengers.local"
+    ingressGateway:
+      port: 445
+
+global:
+  app:
+    clusterIpPort: 8081
+    applicationPort: 8080
+  httpd:
+    clusterIpPort: 8070
+    applicationPort: 7000

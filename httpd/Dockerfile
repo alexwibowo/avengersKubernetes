@@ -17,4 +17,4 @@ COPY conf/proxy.conf /usr/local/apache2/conf/kubedemo.conf
 EXPOSE 7000
 
 RUN sed -i 's/Listen 80/Listen 7000/' /usr/local/apache2/conf/httpd.conf \
-    && echo 'Include Optional /usr/local/apache2/conf/kubedemo.conf' >> /usr/local/apache2/conf/httpd.conf
+    && echo 'IncludeOptional /usr/local/apache2/conf/kubedemo.conf' >> /usr/local/apache2/conf/httpd.conf
