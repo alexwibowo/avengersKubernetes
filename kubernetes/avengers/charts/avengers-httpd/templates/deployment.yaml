@@ -39,9 +39,9 @@ spec:
               protocol: TCP
           env:
             - name: APP_HOST
-              value: "host.docker.internal"
+              value: "{{ .Values.proxy.app.host }}"
             - name: APP_PORT
-              value: "80"
+              value: "{{ .Values.proxy.app.port }}"
           livenessProbe:
             httpGet:
               path: /

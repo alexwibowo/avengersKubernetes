@@ -8,6 +8,12 @@ avengers-istio:
     ingressGateway:
       port: 445
 
+avengers-httpd:
+  proxy:
+    app:
+      host: "host.docker.internal"
+      port: 80
+
 global:
   app:
     clusterIpPort: 8081
