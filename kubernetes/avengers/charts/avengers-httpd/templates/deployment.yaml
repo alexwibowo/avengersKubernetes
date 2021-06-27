@@ -39,9 +39,9 @@ spec:
               protocol: TCP
           env:
             - name: APP_HOST
-              value: "cr1-avengers-app"
+              value: "host.docker.internal"
             - name: APP_PORT
-              value: "{{ .Values.global.app.clusterIpPort }}"
+              value: "80"
           livenessProbe:
             httpGet:
               path: /
