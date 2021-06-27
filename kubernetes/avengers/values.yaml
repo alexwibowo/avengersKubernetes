@@ -7,6 +7,7 @@ avengers-istio:
   mediumTrust:
     hostname: "mediumtrust.avengers.local"
     ingressGateway:
+      tlsName: "default-mediumtrust-avengers-local-credential"
       port: 445
 
 avengers-httpd:
