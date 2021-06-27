@@ -42,4 +42,4 @@ spec:
     - name: avengersAppDestination
       labels:
         app.kubernetes.io/instance: "cr1"
-        app.kuberentes.io/name: {{ include "avengers-httpd.name" . }}
+        app.kubernetes.io/name: {{ include "avengers-httpd.name" . }}
