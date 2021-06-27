@@ -1,14 +1,28 @@
 # Kubernetes Demo
 
+## Prerequisites
+1. Java. I'm using version 16. But technically lower version should work too, as long as it can run the docker gradle plugin.
+   ``` 
+   java -version
+   openjdk version "16" 2021-03-16
+   OpenJDK Runtime Environment Zulu16.28+11-CA (build 16+36)
+   OpenJDK 64-Bit Server VM Zulu16.28+11-CA (build 16+36, mixed mode, sharing)
+   ```
+2. Gradle. You can also use the gradle wrapper.
+3. Helm.
+4. Istio (follow the steps defined in this documentation)
+
+## Overview
+
 How to run the demo
 1. Build the Java Application
 2. Build HTTPD docker image
-3. Install Istio
+3. Install Istio as well as the [certificates](resources/certificates/README.md)
 4. Go to [kubernetes](kubernetes) folder, run
    ``` 
    helm install cr1 avengers
-   ```   
-
+   ```      
+5. Access application at https://lowtrust.avengers.local/avengers
 
 ## Java Application
 ``` 
