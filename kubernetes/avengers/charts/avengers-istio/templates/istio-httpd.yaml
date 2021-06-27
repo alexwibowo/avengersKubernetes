@@ -12,7 +12,7 @@ spec:
         protocol: HTTPS
       tls:
         mode: SIMPLE
-        credentialName: {{ include "avengers-httpd-tls-credentialName" . }}
+        credentialName: {{ .Values.lowTrust.ingressGateway.tlsName }}
       hosts:
         - {{ .Values.lowTrust.hostname }}
 ---

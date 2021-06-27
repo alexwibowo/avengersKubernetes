@@ -30,7 +30,3 @@
 {{- define "avengers-app.destRule" -}}
 {{- printf "%s-avengers-app-destrule" .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
-
-{{- define "avengers-httpd-tls-credentialName" -}}
-{{- printf "default-lowtrust-avengers-local-credential" }}
-{{- end }}

@@ -2,6 +2,7 @@ avengers-istio:
   lowTrust:
     hostname: "lowtrust.avengers.local"
     ingressGateway:
+      tlsName: "default-lowtrust-avengers-local-credential"
       port: 443
   mediumTrust:
     hostname: "mediumtrust.avengers.local"
