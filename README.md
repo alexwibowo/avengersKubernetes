@@ -31,4 +31,32 @@ Deployment/istio-system/istiod
 ...
 ```
 
+``` 
+kubectl label namespace default istio-injection=enabled
+```
+
+
+```
+istioctl proxy-status   
+
+NAME                                                  CDS        LDS        EDS        RDS          ISTIOD                      VERSION
+istio-ingressgateway-7d97f78f5-gd69w.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-69b568db5f-brvvn     1.10.2
+
+```
+
+## Uninstall
+
+``` 
+istioctl manifest generate --set profile=default | kubectl delete --ignore-not-found=true -f -
+```
+
+``` 
+kubectl delete namespace istio-system
+```
+
+``` 
+kubectl label namespace default istio-injection-
+```
+
+
 

@@ -7,7 +7,7 @@ spec:
     istio: ingressgateway
   servers:
     - port:
-        number: {{ .Values.lowTrust.ingressGateway.port }}
+        number: 80
         name: http
         protocol: HTTP
       hosts:
@@ -39,4 +39,5 @@ spec:
   subsets:
     - name: avengersAppDestination
       labels:
+        app.kubernetes.io/instance: "cr1"
         app.kuberentes.io/name: {{ include "avengers-httpd.name" . }}

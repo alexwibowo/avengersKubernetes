@@ -1,9 +1,9 @@
 {{- define "avengers-httpd.host" -}}
-{{- printf "avengers-httpd.default.svc.cluster.local"  }}
+{{- printf "cr1-avengers-httpd.default.svc.cluster.local"  }}
 {{- end }}
 
 {{- define "avengers-app.host" -}}
-{{- printf "avengers-app.default.svc.cluster.local" }}
+{{- printf "cr1-avengers-app.default.svc.cluster.local" }}
 {{- end }}
 
 {{- define "avengers-httpd.gateway" -}}
@@ -29,4 +29,8 @@
 
 {{- define "avengers-app.destRule" -}}
 {{- printf "%s-avengers-app-destrule" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "avengers-httpd-tls-credentialName" -}}
+{{- printf "default-lowtrust-avengers-local-credential" }}
 {{- end }}
