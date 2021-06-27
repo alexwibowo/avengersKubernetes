@@ -1,20 +1,28 @@
 # Kubernetes Demo
 
 ## Prerequisites
-1. Java. I'm using version 16. But technically lower version should work too, as long as it can run the docker gradle plugin.
+1. Java 8+. I'm using version 1.8.0_292
    ``` 
-   java -version
-   openjdk version "16" 2021-03-16
-   OpenJDK Runtime Environment Zulu16.28+11-CA (build 16+36)
-   OpenJDK 64-Bit Server VM Zulu16.28+11-CA (build 16+36, mixed mode, sharing)
+    java -version
+    openjdk version "1.8.0_292"
+    OpenJDK Runtime Environment (Zulu 8.54.0.21-CA-macosx) (build 1.8.0_292-b10)
+    OpenJDK 64-Bit Server VM (Zulu 8.54.0.21-CA-macosx) (build 25.292-b10, mixed mode)
    ```
-2. Gradle. You can also use the gradle wrapper.
-3. Helm.
-4. Istio (follow the steps defined in this documentation)
+2. Gradle. You can also use the gradle wrapper (version 6.8.3). See [build.sh](build.sh)
+3. Helm. Here is what I'm using:
+   ```
+    version.BuildInfo{Version:"v3.6.1", GitCommit:"61d8e8c4a6f95540c15c6a65f36a6dd0a45e7a2f", GitTreeState:"clean", GoVersion:"go1.16.5"}
+   ```
+4. Istio (follow the steps defined in this documentation). Here is what I'm using:
+   ``` 
+   client version: 1.10.2
+   control plane version: 1.10.2
+   data plane version: 1.10.2 (3 proxies)
+   ```
 
 ## Overview
 
-How to run the demo
+How to run the demo:
 1. Build the Java Application
 2. Build HTTPD docker image
 3. Install Istio as well as the [certificates](resources/certificates/README.md)
@@ -22,9 +30,9 @@ How to run the demo
    ``` 
    helm install cr1 avengers
    ```      
-5. Access application at https://lowtrust.avengers.local/avengers
+5. Access application at https://lowtrust.avengers.local/avengers/index.html
 
-## Java Application
+## Building Java Application
 ``` 
 ./gradlew clean build dockerBuildImage
 ```
@@ -36,14 +44,14 @@ docker run --rm --name avengers -p 8080:8080 avengers-app:1.0
 ``` 
 and see from your browser: http://localhost:8080/avengers/index.html
 
-## HTTPD Reverse Proxy image
+## Building HTTPD Reverse Proxy image
 You can build this image from within the [httpd](httpd) directory.
 ``` 
 docker build -t avengers-httpd:1.0 .
 ```
 Note that the reverse proxy config is here: [proxy.conf](httpd/conf/proxy.conf)
 
-## Install Istio
+## Installing Istio
 Istio is required. I'm using 'default' profile
 ``` 
 istioctl install --set profile=default -y
