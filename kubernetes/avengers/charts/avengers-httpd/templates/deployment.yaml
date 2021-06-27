@@ -41,14 +41,14 @@ spec:
             - name: APP_HOST
               value: "cr1-avengers-app"
             - name: APP_PORT
-              value: "8081"
+              value: "{{ .Values.global.app.clusterIpPort }}"
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.global.httpd.applicationPort }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.global.httpd.applicationPort }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
