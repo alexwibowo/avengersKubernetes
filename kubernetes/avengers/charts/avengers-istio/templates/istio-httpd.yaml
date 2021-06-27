@@ -7,11 +7,14 @@ spec:
     istio: ingressgateway
   servers:
     - port:
-        number: 80
-        name: http
-        protocol: HTTP
+        number: {{ .Values.lowTrust.ingressGateway.port }}
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ include "avengers-httpd-tls-credentialName" . }}
       hosts:
-        - "*"
+        - {{ .Values.lowTrust.hostname }}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -19,12 +22,12 @@ metadata:
   name: {{ include "avengers-httpd.virtualServiceName" . }}
 spec:
   hosts:
-    - "*"
+    - {{ .Values.lowTrust.hostname }}
   gateways:
     - {{ include "avengers-httpd.gateway" . }}
   http:
     - match:
-        - port: 80
+        - port: {{ .Values.lowTrust.ingressGateway.port }}
       route:
         - destination:
             host: {{ include "avengers-httpd.host" . }}
@@ -41,5 +44,4 @@ spec:
   subsets:
     - name: avengersAppDestination
       labels:
-        app.kubernetes.io/instance: "cr1"
         app.kubernetes.io/name: {{ include "avengers-httpd.name" . }}
