@@ -33,5 +33,15 @@ spec:
             - name: http
               containerPort: {{ .Values.global.app.applicationPort }}
               protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.global.app.applicationPort }}
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /avengers/index.html
+              port: {{ .Values.global.app.applicationPort }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
