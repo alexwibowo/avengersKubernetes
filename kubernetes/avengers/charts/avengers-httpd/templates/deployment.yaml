@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "avengers-httpd.fullname" . }}
+  namespace: "lowtrust"
   labels:
     {{- include "avengers-httpd.labels" . | nindent 4 }}
 spec:
@@ -11,6 +12,7 @@ spec:
       {{- include "avengers-httpd.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      namespace: "lowtrust"
       labels:
         {{- include "avengers-httpd.selectorLabels" . | nindent 8 }}
     spec:
