@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "avengers-app.fullname" . }}
+  namespace: "mediumtrust"
   labels:
     {{- include "avengers-app.labels" . | nindent 4 }}
 spec:
@@ -11,19 +12,16 @@ spec:
       {{- include "avengers-app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      namespace: "mediumtrust"
       labels:
         {{- include "avengers-app.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "avengers-app.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
         - name: tmp
           emptyDir: {}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
@@ -31,17 +29,17 @@ spec:
               mountPath: /tmp
           ports:
             - name: http
-              containerPort: {{ .Values.global.app.applicationPort }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             tcpSocket:
               port: {{ .Values.global.app.applicationPort }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
           readinessProbe:
             httpGet:
               path: /avengers/index.html
               port: {{ .Values.global.app.applicationPort }}
-            initialDelaySeconds: 20
-            periodSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

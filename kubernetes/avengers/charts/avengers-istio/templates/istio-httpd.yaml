@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: {{ include "avengers-httpd.gateway" . }}
+  namespace: "lowtrust"
 spec:
   selector:
     istio: ingressgateway
@@ -20,6 +21,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ include "avengers-httpd.virtualServiceName" . }}
+  namespace: "lowtrust"
 spec:
   hosts:
     - {{ .Values.lowTrust.hostname }}
@@ -30,18 +32,51 @@ spec:
         - port: {{ .Values.lowTrust.ingressGateway.port }}
       route:
         - destination:
-            host: {{ include "avengers-httpd.host" . }}
-            subset: avengersAppDestination
+            host: "cr1-avengers-httpd.lowtrust.svc.cluster.local"
             port:
-              number: {{ .Values.global.httpd.clusterIpPort }}
+              number: 8070
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "cr1-avengers-app-vs"
+  namespace: "lowtrust"
+spec:
+  hosts:
+    - "cr1-avengers-app.lowtrust.svc.cluster.local"
+  http:
+    - name: "cr1-avengers-app"
+      rewrite:
+        authority: "cr1-avengers-app.mediumtrust.svc.cluster.local"
+      route:
+        - destination:
+            host: "istio.local"
+            port:
+              number: 443
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: {{ include "avengers-httpd.destRule" . }}
+  name: {{ include "avengers-app.fullname" . }}
+  namespace: "lowtrust"
 spec:
-  host: {{ include "avengers-httpd.host" . }}
-  subsets:
-    - name: avengersAppDestination
-      labels:
-        app.kubernetes.io/name: {{ include "avengers-httpd.name" . }}
+  host: "istio.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+      sni: "cr1-avengers-app.mediumtrust.svc.cluster.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ include "avengers-app.fullname" . }}
+  namespace: "lowtrust"
+spec:
+  hosts:
+    - "istio.local"
+  location: MESH_INTERNAL
+  ports:
+    - number: 443
+      name: https
+      protocol: TLS
+  resolution: DNS

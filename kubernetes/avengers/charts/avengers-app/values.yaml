@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: avengers-app
+  repository: avengers-nginx
   pullPolicy: IfNotPresent
   tag: "1.0"
 
@@ -16,10 +16,6 @@ podSecurityContext:
    runAsUser: 1000
    runAsGroup: 1000
    fsGroup: 1000
-
-securityContext:
-   readOnlyRootFilesystem: true
-   allowPrivilegeEscalation: false
 
 resources:
    limits:

@@ -59,7 +59,7 @@ Certificate:
 
 ```
 
-### Client certificate
+### LowTrust Client certificate
 
 #### Client Certificate Signing Request
 Create ```request.txt``` file with the following content:
@@ -152,6 +152,28 @@ Certificate:
          f3:8a:99:08
 ```
 
+### MediumTrust Client certificate
+
+#### Client Certificate Signing Request
+
+```
+openssl req -out mediumtrust.avengers.local.csr -newkey rsa:2048 -nodes -keyout mediumtrust.avengers.local.key  -subj "/CN=mediumtrust.avengers.local/O=The Avengers" -reqexts san -config request.txt
+Generating a 2048 bit RSA private key
+.............................................+++
+.........................................................................+++
+writing new private key to 'mediumtrust.avengers.local.key'
+-----
+```
+
+#### Client Certificate
+
+```
+openssl  x509 -req -days 365 -CA avengers.local.crt -CAkey avengers.local.key -set_serial 0 -in mediumtrust.avengers.local.csr -out mediumtrust.avengers.local.crt -extensions san -extfile request.txt
+Signature ok
+subject=/CN=mediumtrust.avengers.local/O=The Avengers
+Getting CA Private Key
+```
+
 ## Configure TLS Ingress Gateway
 We will now install the certificate on Kubernetes secret.
 
@@ -160,8 +182,14 @@ kubectl create -n istio-system secret tls default-lowtrust-avengers-local-creden
 secret/default-lowtrust-avengers-local-credential created
 ```
 
+``` 
+kubectl create -n istio-system secret tls default-mediumtrust-avengers-local-credential --key=mediumtrust.avengers.local.key --cert=mediumtrust.avengers.local.crt
+secret/default-mediumtrust-avengers-local-credential created
+```
+
 ## Configure Host
 ```
 127.0.0.1 lowtrust.avengers.local
+127.0.0.1 mediumtrust.avengers.local
 ```
 Remember, ```lowtrust.avengers.local``` is the DNS we chose to generate our certificate with

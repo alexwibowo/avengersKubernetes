@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "avengers-app.fullname" . }}
+  namespace: "mediumtrust"
 spec:
   podSelector:
     matchLabels:
@@ -10,10 +11,7 @@ spec:
     - Ingress
   ingress:
     - from:
-        - namespaceSelector:
-            matchLabels:
-              name: istio-internal
-          podSelector:
+        - podSelector:
             matchLabels:
               istio: ingressgateway
       ports:

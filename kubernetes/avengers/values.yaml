@@ -7,13 +7,15 @@ avengers-istio:
   mediumTrust:
     hostname: "mediumtrust.avengers.local"
     ingressGateway:
+      tlsName: "default-mediumtrust-avengers-local-credential"
       port: 445
 
 avengers-httpd:
   proxy:
     app:
-      host: "host.docker.internal"
-      port: 80
+      protocol: http
+      host: "cr1-avengers-app.lowtrust.svc.cluster.local"
+      port: 8081
 
 global:
   app:

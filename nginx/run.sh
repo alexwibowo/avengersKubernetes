@@ -1,0 +1,1 @@
+docker run --rm --name avengers-nginx -p 8085:8080 avengers-nginx:1.0
