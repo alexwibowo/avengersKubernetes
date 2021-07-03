@@ -40,6 +40,8 @@ spec:
               containerPort: {{ .Values.global.httpd.applicationPort }}
               protocol: TCP
           env:
+            - name: APP_PROTOCOL
+              value: "{{ .Values.proxy.app.protocol }}"
             - name: APP_HOST
               value: "{{ .Values.proxy.app.host }}"
             - name: APP_PORT

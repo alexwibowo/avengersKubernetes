@@ -14,3 +14,15 @@ spec:
       name: http
   selector:
     {{- include "avengers-httpd.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cr1-avengers-app
+  namespace: "lowtrust"
+spec:
+  ports:
+    - port: {{ .Values.global.app.clusterIpPort }}
+      targetPort: {{ .Values.global.app.applicationPort }}
+      protocol: TCP
+      name: http

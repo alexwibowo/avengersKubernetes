@@ -11,10 +11,7 @@ spec:
     - Ingress
   ingress:
     - from:
-        - namespaceSelector:
-            matchLabels:
-              name: istio-internal
-          podSelector:
+        - podSelector:
             matchLabels:
               istio: ingressgateway
       ports:
